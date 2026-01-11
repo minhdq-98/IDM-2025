@@ -1,0 +1,26 @@
+
+{
+  "triplet_id": "UUID or Sequence (optional)",
+  "entity": {
+      "name": "Extracted Head Entity Name",
+      "entity_type": "One of the 24 entity types (ORG, COMP, PERSON, etc.)"
+  },
+  "relationship": {
+      "relationship": "One of the 27 relationship types (Produces, Increases, etc.)",
+      "evidence": "Evidence text snippet supporting the relationship"
+  },
+  "target": {
+      "name": "Extracted Tail Entity Name",
+      "entity_type": "One of the 24 entity types (PRODUCT, FIN_METRIC, etc.)"
+  },
+  "temporal_info": {
+      "date": "YYYY-MM-DD",
+      "extraction_type": "extracted or default"
+  },
+  "ticker": "Symbol from metadata",
+  "source_url": "URL from metadata",
+  "source_text": "Evidence text snippet",
+  "chunk_text": "Full text context surrounding the triplet (the exact sentence/phrase where relationship was found)",
+  "chunk_id": "null",
+  "page_id": "null"
+}
