@@ -1,0 +1,128 @@
+triplet_id,entity,entity_type,relationship,target,target_type,date,ticker,source_url,source_text
+1,AAPL,ORG,Increases,Share Price,FIN_METRIC,2023-12-01,AAPL,,shares of AAPL stock have gained by 9.29%.
+2,Apple Inc.,ORG,Produces,consumer electronics,PRODUCT,2023-12-01,AAPL,,"Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services."
+3,Apple Inc.,ORG,Produces,software,PRODUCT,2023-12-01,AAPL,,"Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services."
+4,Apple Inc.,ORG,Produces,online services,PRODUCT,2023-12-01,AAPL,,"Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services."
+5,McDonald’s Corporation,COMP,Related_To,Blue Chip Stocks,CONCEPT,2023-12-01,AAPL,,Blue Chip Stocks To Buy [Or Avoid] Today McDonald’s Corporation (NYSE: MCD)
+6,Paramount Global,COMP,Increases,Share Price,FIN_METRIC,2023-12-01,AAPL,,Paramount GlobalPARA.O climbed 7.6%
+7,Paramount Global,COMP,Partners_With,Apple,ORG,2023-12-01,AAPL,,Paramount GlobalPARA.O climbed 7.6% on a report the media company and Apple AAPL.O have discussed bundling their streaming services at a discount.
+8,Apple,ORG,Partners_With,Paramount Global,COMP,2023-12-01,AAPL,,Paramount GlobalPARA.O climbed 7.6% on a report the media company and Apple AAPL.O have discussed bundling their streaming services at a discount.
+9,Apple,ORG,Introduces,streaming services,PRODUCT,2023-12-01,AAPL,,Apple AAPL.O have discussed bundling their streaming services at a discount.
+10,Federal Reserve,ORG_REG,Announces,progress in lowering inflation,COMMENTARY,2023-12-01,AAPL,,Federal Reserve Chair Jerome Powell acknowledged progress in lowering inflation
+11,Jerome Powell,PERSON,Member_Of,Federal Reserve,ORG_REG,2023-12-01,AAPL,,Federal Reserve Chair Jerome Powell
+12,Federal Reserve,ORG_REG,Guides_On,interest rate hiking campaign,MACRO_CONDITION,2023-12-01,AAPL,,the central bank was done with its interest rate hiking campaign.
+13,personal consumption expenditure index,ECON_IND,Discloses,easing inflation,ECON_IND,2023-12-01,AAPL,,personal consumption expenditure index signalled easing inflation
+14,central bank,ORG_REG,Guides_On,end its interest rate hikes,MACRO_CONDITION,2023-12-01,AAPL,,the central bank would now end its interest rate hikes
+15,central bank,ORG_REG,Guides_On,start lowering them soon,MACRO_CONDITION,2023-12-01,AAPL,,"could start lowering them soon, propelling a rally in equities."
+16,equities,FIN_INST,Stock_Rise_Due_To,central bank lowering interest rates,MACRO_CONDITION,2023-12-01,AAPL,,"could start lowering them soon, propelling a rally in equities."
+17,S&P 500,FIN_MARKET,Increases,9%,FIN_METRIC,2023-12-01,AAPL,,The S&P 500 gained nearly 9% gain in November
+18,S&P 500,FIN_MARKET,Increases,77% of the time,FIN_METRIC,2023-12-01,AAPL,,with the index rising 77% of the time
+19,stocks,FIN_INST,Positively_Impacts,S&P 500,FIN_MARKET,2023-12-01,AAPL,,stocks that were down 10% or more between January and the end of October have beaten the S&P 500 by an average of 1.9% over the next three months
+20,BofA Global Research,COMP,Discloses,stocks performance data,COMMENTARY,2023-12-01,AAPL,,according to BofA Global Research.
+21,Apple,ORG,Related_To,Tech Dividend Stocks,FIN_INST,2023-12-01,AAPL,,Tech giants Apple (NASDAQ: AAPL) and Microsoft (NASDAQ: MSFT) have a lot in common.
+22,Apple,ORG,Partners_With,Microsoft,COMP,2023-12-01,AAPL,,Tech giants Apple (NASDAQ: AAPL) and Microsoft (NASDAQ: MSFT) have a lot in common.
+23,Apple,ORG,Increases,iPhone sales,FIN_METRIC,2023-12-01,AAPL,,the company had its best fiscal Q4 ever for iPhone sales
+24,Apple,ORG,Increases,services unit's revenue,FIN_METRIC,2023-12-01,AAPL,,its services unit's revenue set an all-time high
+25,Apple,ORG,Increases,stock gains of between about 47% and 220%,FIN_METRIC,2023-12-01,AAPL,,"Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O -- have seen stock gains of between about 47% and 220% so far this year."
+26,Microsoft,COMP,Increases,stock gains of between about 47% and 220%,FIN_METRIC,2023-12-01,AAPL,,"Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O -- have seen stock gains of between about 47% and 220% so far this year."
+27,Alphabet,COMP,Increases,stock gains of between about 47% and 220%,FIN_METRIC,2023-12-01,AAPL,,"Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O -- have seen stock gains of between about 47% and 220% so far this year."
+28,Amazon,COMP,Increases,stock gains of between about 47% and 220%,FIN_METRIC,2023-12-01,AAPL,,"Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O -- have seen stock gains of between about 47% and 220% so far this year."
+29,Nvidia,COMP,Increases,stock gains of between about 47% and 220%,FIN_METRIC,2023-12-01,AAPL,,"Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O -- have seen stock gains of between about 47% and 220% so far this year."
+30,Meta Platforms,COMP,Increases,stock gains of between about 47% and 220%,FIN_METRIC,2023-12-01,AAPL,,"Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O -- have seen stock gains of between about 47% and 220% so far this year."
+31,Tesla,COMP,Increases,stock gains of between about 47% and 220%,FIN_METRIC,2023-12-01,AAPL,,"Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O -- have seen stock gains of between about 47% and 220% so far this year."
+32,Fed,ORG_REG,Introduces,aggressive rate increases,MACRO_CONDITION,2023-12-01,AAPL,,the Fed’s aggressive rate increases
+33,aggressive rate increases,MACRO_CONDITION,Negatively_Impacts,U.S. economy,GPE,2023-12-01,AAPL,,tighter monetary policy would hurt growth.
+34,central bank,ORG_REG,Guides_On,rate increases,MACRO_CONDITION,2023-12-01,AAPL,,the central bank was close to wrapping up its rate increases.
+35,Dow,FIN_MARKET,Increases,0.82%,FIN_METRIC,2023-12-01,AAPL,,Indexes up: Dow 0.82%
+36,S&P,FIN_MARKET,Increases,0.59%,FIN_METRIC,2023-12-01,AAPL,,S&P 0.59%
+37,Nasdaq,FIN_MARKET,Increases,0.55%,FIN_METRIC,2023-12-01,AAPL,,Nasdaq 0.55%
+38,U.S. stocks,FIN_INST,Market_Reacts_To,Jerome Powell remarks,COMMENTARY,2023-12-01,AAPL,,"U.S. stocks rallied and the S&P registered its highest close of the year on Friday, starting December on an upbeat note as remarks from Federal Reserve Chair Jerome Powell bolstered the view that key policy rates have peaked."
+39,S&P 500,FIN_MARKET,Increases,biggest one-month percentage gains since July 2022,FIN_METRIC,2023-12-01,AAPL,,the S&P 500 and the Nasdaq registered their biggest one-month percentage gains since July 2022
+40,Nasdaq,FIN_MARKET,Increases,biggest one-month percentage gains since July 2022,FIN_METRIC,2023-12-01,AAPL,,the S&P 500 and the Nasdaq registered their biggest one-month percentage gains since July 2022
+41,Dow,FIN_MARKET,Increases,highest level since January 2022,FIN_METRIC,2023-12-01,AAPL,,the Dow closed at its highest level since January 2022.
+42,Paramount Global,COMP,Increases,9.6%,FIN_METRIC,2023-12-01,AAPL,,Paramount GlobalPARA.O jumped 9.6%
+43,Paramount Global,COMP,Partners_With,Apple,ORG,2023-12-01,AAPL,,Paramount GlobalPARA.O jumped 9.6% following a report the media company and Apple AAPL.O have discussed bundling their streaming services at a discount.
+44,Apple,ORG,Partners_With,Paramount Global,COMP,2023-12-01,AAPL,,Paramount GlobalPARA.O jumped 9.6% following a report the media company and Apple AAPL.O have discussed bundling their streaming services at a discount.
+45,U.S. stocks,FIN_INST,Market_Reacts_To,Jerome Powell remarks,COMMENTARY,2023-12-01,AAPL,,"U.S. stocks advanced on Friday, starting December with a broad rally as remarks from Federal Reserve Chairman Jerome Powell bolstered the view that interest rates have peaked."
+46,Jerome Powell,PERSON,Member_Of,Federal Reserve,ORG_REG,2023-12-01,AAPL,,Federal Reserve Chairman Jerome Powell
+47,Federal Reserve,ORG_REG,Guides_On,interest rates have peaked,MACRO_CONDITION,2023-12-01,AAPL,,Jerome Powell bolstered the view that interest rates have peaked.
+48,Digital Markets Act (DMA),REGULATORY_REQUIREMENT,Regulates,TikTok,COMP,2023-12-01,AAPL,,"The Digital Markets Act (DMA) requires TikTok and other designated gatekeepers Alphabet's GOOGL.O Google, Meta Platforms META.O, Apple AAPL.O, Amazon AMZN.O and Microsoft MSFT.O to make their messaging apps interoperate with rivals and let users decide which apps to pre-install on their devices."
+49,Digital Markets Act (DMA),REGULATORY_REQUIREMENT,Regulates,Alphabet's Google,COMP,2023-12-01,AAPL,,"The Digital Markets Act (DMA) requires TikTok and other designated gatekeepers Alphabet's GOOGL.O Google, Meta Platforms META.O, Apple AAPL.O, Amazon AMZN.O and Microsoft MSFT.O to make their messaging apps interoperate with rivals and let users decide which apps to pre-install on their devices."
+50,Digital Markets Act (DMA),REGULATORY_REQUIREMENT,Regulates,Meta Platforms,COMP,2023-12-01,AAPL,,"The Digital Markets Act (DMA) requires TikTok and other designated gatekeepers Alphabet's GOOGL.O Google, Meta Platforms META.O, Apple AAPL.O, Amazon AMZN.O and Microsoft MSFT.O to make their messaging apps interoperate with rivals and let users decide which apps to pre-install on their devices."
+51,Digital Markets Act (DMA),REGULATORY_REQUIREMENT,Regulates,Apple,ORG,2023-12-01,AAPL,,"The Digital Markets Act (DMA) requires TikTok and other designated gatekeepers Alphabet's GOOGL.O Google, Meta Platforms META.O, Apple AAPL.O, Amazon AMZN.O and Microsoft MSFT.O to make their messaging apps interoperate with rivals and let users decide which apps to pre-install on their devices."
+52,Digital Markets Act (DMA),REGULATORY_REQUIREMENT,Regulates,Amazon,COMP,2023-12-01,AAPL,,"The Digital Markets Act (DMA) requires TikTok and other designated gatekeepers Alphabet's GOOGL.O Google, Meta Platforms META.O, Apple AAPL.O, Amazon AMZN.O and Microsoft MSFT.O to make their messaging apps interoperate with rivals and let users decide which apps to pre-install on their devices."
+53,Digital Markets Act (DMA),REGULATORY_REQUIREMENT,Regulates,Microsoft,COMP,2023-12-01,AAPL,,"The Digital Markets Act (DMA) requires TikTok and other designated gatekeepers Alphabet's GOOGL.O Google, Meta Platforms META.O, Apple AAPL.O, Amazon AMZN.O and Microsoft MSFT.O to make their messaging apps interoperate with rivals and let users decide which apps to pre-install on their devices."
+54,TikTok,COMP,Subject_To,EU tech rules,REGULATORY_REQUIREMENT,2023-12-01,AAPL,,TikTok has asked Europe's second highest court to suspend its designation as a gatekeeper under onerous new EU tech rules
+55,TikTok,COMP,Involved_In,challenge against the label,LITIGATION,2023-12-01,AAPL,,judges rule on its challenge against the label.
+56,ByteDance,COMP,Has_Stake_In,TikTok,COMP,2023-12-01,AAPL,,Chinese conglomerate ByteDance's TikTok
+57,Walmart,COMP,Decreases,advertising on social media platform X,CONCEPT,2023-12-01,AAPL,,Walmart WMT.N said on Friday it is not advertising on social media platform X
+58,Apple,ORG,Decreases,ads on X,CONCEPT,2023-12-01,AAPL,,"Major brands including Apple AAPL.O, Walt Disney DIS.N and Warner Bros Discovery WBD.O also suspended their ads on X this month"
+59,Walt Disney,COMP,Decreases,ads on X,CONCEPT,2023-12-01,AAPL,,"Major brands including Apple AAPL.O, Walt Disney DIS.N and Warner Bros Discovery WBD.O also suspended their ads on X this month"
+60,Warner Bros Discovery,COMP,Decreases,ads on X,CONCEPT,2023-12-01,AAPL,,"Major brands including Apple AAPL.O, Walt Disney DIS.N and Warner Bros Discovery WBD.O also suspended their ads on X this month"
+61,ads on X,CONCEPT,Stock_Decline_Due_To,antisemitic posts,RISK_FACTOR,2023-12-01,AAPL,,ads had appeared next to antisemitic posts.
+62,Elon Musk,PERSON,Has_Stake_In,X,COMP,2023-12-01,AAPL,,Elon Musk-owned site.
+63,Alphabet,COMP,Produces,smart home devices,PRODUCT,2023-12-01,AAPL,,"Alphabet to compete well with some notable industry players like Amazon AMZN and Apple AAPL, which are also making concerted efforts to gain a solid footing in the smart home market space."
+64,Alphabet,COMP,Related_To,Amazon,COMP,2023-12-01,AAPL,,Alphabet to compete well with some notable industry players like Amazon AMZN and Apple AAPL
+65,Alphabet,COMP,Related_To,Apple,ORG,2023-12-01,AAPL,,Alphabet to compete well with some notable industry players like Amazon AMZN and Apple AAPL
+66,Amazon,COMP,Produces,smart home devices,PRODUCT,2023-12-01,AAPL,,"Amazon AMZN and Apple AAPL, which are also making concerted efforts to gain a solid footing in the smart home market space."
+67,Apple,ORG,Produces,smart home devices,PRODUCT,2023-12-01,AAPL,,"Amazon AMZN and Apple AAPL, which are also making concerted efforts to gain a solid footing in the smart home market space."
+68,Alphabet,COMP,Introduces,new feature updates and releases,PRODUCT,2023-12-01,AAPL,,Alphabet GOOGL is enhancing its Google smart home devices portfolio on the back of new feature updates and releases.
+69,AAPL stock,FIN_INST,Increases,2.6% or $5.02,FIN_METRIC,2023-12-01,AAPL,,AAPL stock has to rise by 2.6% or $5.02 in the next week
+70,Apple,ORG,Related_To,unusually active options,FIN_INST,2023-12-01,AAPL,,Apple (AAPL) had seven unusually active options on Thursday
+71,AAPL stock,FIN_INST,Increases,$1.40,FIN_METRIC,2023-12-01,AAPL,,AAPL stock is up $1.40 in Friday trading
+72,Paramount Global,COMP,Increases,1%,FIN_METRIC,2023-12-01,AAPL,,Paramount GlobalPARA.O climbed 1%
+73,Paramount Global,COMP,Partners_With,Apple,ORG,2023-12-01,AAPL,,Paramount GlobalPARA.O climbed 1% on a report the media company and Apple AAPL.O have discussed bundling their streaming services at a discount.
+74,Apple,ORG,Partners_With,Paramount Global,COMP,2023-12-01,AAPL,,Paramount GlobalPARA.O climbed 1% on a report the media company and Apple AAPL.O have discussed bundling their streaming services at a discount.
+75,S&P 500,FIN_MARKET,Decreases,Share Price,FIN_METRIC,2023-12-01,AAPL,,The S&P 500 and Nasdaq fell on Friday
+76,Nasdaq,FIN_MARKET,Decreases,Share Price,FIN_METRIC,2023-12-01,AAPL,,The S&P 500 and Nasdaq fell on Friday
+77,S&P 500,FIN_MARKET,Increases,biggest monthly gain since July 2022,FIN_METRIC,2023-12-01,AAPL,,both the indexes finished November with their biggest monthly gain since July 2022
+78,Nasdaq,FIN_MARKET,Increases,biggest monthly gain since July 2022,FIN_METRIC,2023-12-01,AAPL,,both the indexes finished November with their biggest monthly gain since July 2022
+79,Dow Jones,FIN_MARKET,Increases,highest level since January 2022,FIN_METRIC,2023-12-01,AAPL,,the Dow Jones .DJI rallied to close at its highest level since January 2022.
+80,Apple,ORG,Increases,36% of the Google Search revenue,FIN_METRIC,2023-12-01,AAPL,,Apple (NASDAQ: AAPL) receives 36% of the Google Search revenue that goes through the Safari browser
+81,Apple,ORG,Produces,Safari browser,PRODUCT,2023-12-01,AAPL,,the Safari browser that Apple pre-installs on its devices.
+82,Apple,ORG,Produces,devices,PRODUCT,2023-12-01,AAPL,,Apple pre-installs on its devices.
+83,courts,ORG_GOV,Involved_In,rule against Alphabet,LITIGATION,2023-12-01,AAPL,,If the courts rule against Alphabet
+84,Alphabet,COMP,Faces,courts rule against,LITIGATION,2023-12-01,AAPL,,If the courts rule against Alphabet
+85,Apple,ORG,Faces,inability to replicate deal,RISK_FACTOR,2023-12-01,AAPL,,it is unlikely that Apple would be able to replicate its deal with any other search engine provider.
+86,Google Search,PRODUCT,Increases,$55 billion in revenue,FIN_METRIC,2023-12-01,AAPL,,Google Search earns about $55 billion in revenue through Safari.
+87,AAPL,ORG,Related_To,Twin Momentum Investor model,CONCEPT,2023-12-01,AAPL,,AAPL rates highest using our Twin Momentum Investor model
+88,Dashan Huang,PERSON,Related_To,Twin Momentum Investor model,CONCEPT,2023-12-01,AAPL,,based on the published strategy of Dashan Huang.
+89,APPLE INC,ORG,Operates_In,Communications Equipment industry,SECTOR,2023-12-01,AAPL,,APPLE INC (AAPL) is a large-cap growth stock in the Communications Equipment industry.
+90,APPLE INC,ORG,Related_To,large-cap growth stock,FIN_INST,2023-12-01,AAPL,,APPLE INC (AAPL) is a large-cap growth stock
+91,Apple Inc.,ORG,Partners_With,Paramount Global,COMP,2023-12-01,AAPL,,Apple Inc. (AAPL) and Paramount Global are in talks to bundle Paramount+ and Apple TV+ together
+92,Paramount Global,COMP,Partners_With,Apple Inc.,ORG,2023-12-01,AAPL,,Apple Inc. (AAPL) and Paramount Global are in talks to bundle Paramount+ and Apple TV+ together
+93,Paramount Global,COMP,Produces,Paramount+,PRODUCT,2023-12-01,AAPL,,Paramount+ is a direct-to-consumer digital subscription video on-demand and live streaming service from Paramount
+94,Apple Inc.,ORG,Produces,Apple TV+,PRODUCT,2023-12-01,AAPL,,Apple Inc. (AAPL) and Paramount Global are in talks to bundle Paramount+ and Apple TV+ together
+95,Paramount+,PRODUCT,Related_To,direct-to-consumer digital subscription video on-demand and live streaming service,PRODUCT,2023-12-01,AAPL,,Paramount+ is a direct-to-consumer digital subscription video on-demand and live streaming service
+96,Apple,ORG,Partners_With,Paramount Global,COMP,2023-12-01,AAPL,,Apple AAPL.O and Paramount Global PARA.O have discussed bundling their streaming services at a discount
+97,Paramount Global,COMP,Partners_With,Apple,ORG,2023-12-01,AAPL,,Apple AAPL.O and Paramount Global PARA.O have discussed bundling their streaming services at a discount
+98,Paramount,COMP,Increases,3%,FIN_METRIC,2023-12-01,AAPL,,Shares of media company Paramount rose 3% in premarket trading.
+99,Paramount+,PRODUCT,Related_To,Apple TV+,PRODUCT,2023-12-01,AAPL,,offering a combined Paramount+ and Apple TV+ offering
+100,Nvidia,COMP,Related_To,cheaper stock,FIN_INST,2023-12-01,AAPL,,Nvidia a cheaper stock to buy than either Apple (NASDAQ:AAPL) or Microsoft.
+101,Nvidia,COMP,Produces,microchips and semiconductors,PRODUCT,2023-12-01,AAPL,,global demand for its microchips and semiconductors accelerating
+102,Nvidia,COMP,Related_To,AI,CONCEPT,2023-12-01,AAPL,,the development of AI in its infancy
+103,Nvidia,COMP,Related_To,growth stock,FIN_INST,2023-12-01,AAPL,,Nvidia (NASDAQ:NVDA) stock remains a must-own growth play
+104,Joel Baglole,PERSON,Has_Stake_In,NVDA,FIN_INST,2023-12-01,AAPL,,"Joel Baglole held long positions in NVDA, MSFT and AAPL."
+105,Joel Baglole,PERSON,Has_Stake_In,MSFT,FIN_INST,2023-12-01,AAPL,,"Joel Baglole held long positions in NVDA, MSFT and AAPL."
+106,Joel Baglole,PERSON,Has_Stake_In,AAPL,FIN_INST,2023-12-01,AAPL,,"Joel Baglole held long positions in NVDA, MSFT and AAPL."
+107,market,FIN_MARKET,Increases,rallying,FIN_METRIC,2023-12-01,AAPL,,The market is rallying
+108,Amazon,COMP,Increases,Share Price,FIN_METRIC,2023-12-01,AAPL,,"top stocks such as Amazon (NASDAQ: AMZN), Tesla (NASDAQ: TSLA), and Apple (NASDAQ: AAPL) leading the way."
+109,Tesla,COMP,Increases,Share Price,FIN_METRIC,2023-12-01,AAPL,,"top stocks such as Amazon (NASDAQ: AMZN), Tesla (NASDAQ: TSLA), and Apple (NASDAQ: AAPL) leading the way."
+110,Apple,ORG,Increases,Share Price,FIN_METRIC,2023-12-01,AAPL,,"top stocks such as Amazon (NASDAQ: AMZN), Tesla (NASDAQ: TSLA), and Apple (NASDAQ: AAPL) leading the way."
+111,S&P 500 index,FIN_MARKET,Decreases,5%,FIN_METRIC,2023-12-01,AAPL,,December brought the S&P 500 index a loss of about 5% last year
+112,Competition and Markets Authority (CMA),ORG_REG,Involved_In,appeal from UK High Court,LITIGATION,2023-12-01,AAPL,,The Competition and Markets Authority or CMA has won an appeal from UK High Court
+113,CMA,ORG_REG,Regulates,Apple Inc.,ORG,2023-12-01,AAPL,,"allowing it to open a market investigation into mobile browsers and cloud gaming, mainly of tech major Apple Inc. (AAPL)."
+114,CMA,ORG_REG,Introduces,market investigation into mobile browsers and cloud gaming,REGULATORY_REQUIREMENT,2023-12-01,AAPL,,allowing it to open a market investigation into mobile browsers and cloud gaming
+115,Apple,ORG,Produces,mobile browsers,PRODUCT,2023-12-01,AAPL,,"market investigation into mobile browsers and cloud gaming, mainly of tech major Apple Inc. (AAPL)."
+116,Apple,ORG,Produces,cloud gaming,PRODUCT,2023-12-01,AAPL,,"market investigation into mobile browsers and cloud gaming, mainly of tech major Apple Inc. (AAPL)."
+117,ruling,LITIGATION,Overturns,Competition Appeal Tribunal (CAT)'s decision,LITIGATION,2023-12-01,AAPL,,The ruling overturns the Competition Appeal Tribunal or CAT's decision in March 2023
+118,Apple,ORG,Involved_In,appeal to the CAT,LITIGATION,2023-12-01,AAPL,,challenged by Apple by appealing to the CAT
+119,Apple Inc.,ORG,Partners_With,"Amkor Technology, Inc.",COMP,2023-12-01,AAPL,,"Apple Inc. announced it will be the first and largest customer of Amkor Technology, Inc.'s new $2 billion advanced silicon manufacturing and packaging facility"
+120,"Amkor Technology, Inc.",COMP,Produces,advanced silicon manufacturing and packaging facility,PRODUCT,2023-12-01,AAPL,,"Amkor Technology, Inc.'s new $2 billion advanced silicon manufacturing and packaging facility"
+121,"Amkor Technology, Inc.",COMP,Operates_In,"Peoria, Arizona",GPE,2023-12-01,AAPL,,"facility being developed in Peoria, Arizona."
+122,facility,PRODUCT,Related_To,"2,000 people",FIN_METRIC,2023-12-01,AAPL,,"expected to employ around 2,000 people upon completion"
+123,facility,PRODUCT,Produces,Apple silicon,PRODUCT,2023-12-01,AAPL,,will package Apple silicon produced at the nearby Taiwan Semiconductor Manufacturing Co Ltd. or TSMC fab
+124,Apple,ORG,Supplies,Apple silicon,PRODUCT,2023-12-01,AAPL,,will package Apple silicon produced at the nearby Taiwan Semiconductor Manufacturing Co Ltd. or TSMC fab
+125,Taiwan Semiconductor Manufacturing Co Ltd. (TSMC),COMP,Produces,Apple silicon,PRODUCT,2023-12-01,AAPL,,Apple silicon produced at the nearby Taiwan Semiconductor Manufacturing Co Ltd. or TSMC fab
+126,Apple,ORG,Invests_In,$430 billion,FIN_METRIC,2023-12-01,AAPL,,Apple in 2021 had committed to invest $430 billion in the U.S. economy over five years.
+127,Apple,ORG,Operates_In,U.S. economy,GPE,2023-12-01,AAPL,,invest $430 billion in the U.S. economy

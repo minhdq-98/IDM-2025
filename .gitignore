@@ -1,1 +1,4 @@
+# Stop tracking intermediate files to prevent cluttering git
 .env
+__pycache__
+.ipynb_checkpoints

@@ -1,0 +1,45 @@
+
+[
+	{
+		"question": "What products does Apple produce?",
+		"cypher_query": "MATCH (org:Entity {name: 'Apple Inc.'})-[r:Produces]->(product:Entity)\nWHERE product.type = 'PRODUCT'\nRETURN org.name AS Company, product.name AS Product, r.date AS Date, r.source_text AS Evidence",
+		"explanation": "This query finds all entities connected to 'Apple Inc.' via a 'Produces' relationship, specifically filtering for target entities that are of type 'PRODUCT'. It returns the company name, the product name, the date of the relationship, and the source text as evidence.",
+		"results": []
+	},
+	{
+		"question": "How much did AAPL stock increase?",
+		"cypher_query": "MATCH (org:Entity)-[r:Increases]->(metric:Entity)\nWHERE org.name CONTAINS 'AAPL' AND metric.type = 'FIN_METRIC'\nRETURN org.name AS Entity, metric.name AS Metric, r.date AS Date, r.source_text AS Evidence\nORDER BY r.date DESC",
+		"explanation": "This query finds all entities related to 'AAPL' that have an 'Increases' relationship to another entity classified as a 'FIN_METRIC'. It returns the company name, the specific financial metric that increased, the date of the increase, and the source text providing evidence.",
+		"results": []
+	},
+	{
+		"question": "Who are Apple's competitors?",
+		"cypher_query": "MATCH (apple:Entity)-[r]-(competitor:Entity)\nWHERE apple.name CONTAINS 'Apple'\n  AND (competitor.type = 'COMP' OR competitor.type = 'ORG')\n  AND type(r) IN ['COMPETES_WITH', 'Related_To']\nRETURN apple.name AS Company, type(r) AS Relationship, competitor.name AS Competitor, r.date AS Date, r.source_text AS Evidence\nORDER BY r.date DESC",
+		"explanation": "This query finds entities related to 'Apple' that are identified as companies (COMP or ORG type). It specifically looks for relationships of type 'COMPETES_WITH' (as suggested by similar examples for competitive relationships) or 'Related_To' to capture potential competitors. The results include the company name, the relationship type, the competitor's name, the date of the relationship, and the source text as evidence.",
+		"results": []
+	},
+	{
+		"question": "What events affected Apple's stock?",
+		"cypher_query": "MATCH (org:Entity)-[r]->(event:Entity)\nWHERE org.name CONTAINS 'Apple' \n  AND event.type = 'EVENT'\n  AND type(r) IN ['Stock_Rise_Due_To', 'Stock_Decline_Due_To', 'Affects_Stock']\nRETURN org.name AS Company, type(r) AS Impact, event.name AS Event, r.date AS Date, r.source_text AS Evidence\nORDER BY r.date DESC",
+		"explanation": "This query identifies all events that have impacted Apple's stock. It matches an entity representing 'Apple' and then traverses relationships indicating stock impact (Stock_Rise_Due_To, Stock_Decline_Due_To, Affects_Stock) to find related entities classified as 'EVENT'. The results are ordered by date.",
+		"results": []
+	},
+	{
+		"question": "What products does Apple produce and which events increased their sales?",
+		"cypher_query": "MATCH (org:Entity {name: 'Apple Inc.'})-[:Produces]->(product:Entity)-[r:Increases|Stock_Rise_Due_To]->(event:Entity)\nWHERE product.type = 'PRODUCT' AND event.type = 'EVENT'\nRETURN org.name AS Company, product.name AS Product, event.name AS Event, type(r) AS ImpactType, r.date AS Date, r.source_text AS Evidence\nORDER BY r.date DESC",
+		"explanation": "This query finds products produced by 'Apple Inc.'. Then, it identifies events that are linked to these products via 'Increases' or 'Stock_Rise_Due_To' relationships, indicating an increase in sales or stock performance related to the product. It filters to ensure the second hop target is specifically an 'EVENT' type.",
+		"results": []
+	},
+	{
+		"question": "How many relationships does Apple have in the graph?",
+		"cypher_query": "MATCH (org:Entity)-[r]-(other:Entity)\nWHERE org.name CONTAINS 'Apple'\nRETURN org.name AS Company, count(r) AS TotalRelationships, collect(DISTINCT type(r)) AS RelationshipTypes",
+		"explanation": "This query finds all entities whose name contains 'Apple', then counts all relationships connected to these entities. It also collects and returns the distinct types of relationships found.",
+		"results": []
+	},
+	{
+		"question": "What happened with Apple in December 2023?",
+		"cypher_query": "MATCH (org:Entity)-[r]-(other:Entity)\nWHERE org.name CONTAINS 'Apple' \n  AND r.date CONTAINS '2023-12'\nRETURN org.name AS Company, type(r) AS Relationship, other.name AS RelatedEntity, other.type AS EntityType, r.date AS Date, r.source_text AS Evidence\nORDER BY r.date DESC",
+		"explanation": "This query finds all entities directly related to 'Apple' (matching 'Apple' in its name) through any relationship. It then filters these relationships to include only those that occurred in December 2023, based on the 'date' property of the relationship. The results are ordered by date in descending order.",
+		"results": []
+	}
+]
