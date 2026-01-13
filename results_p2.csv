@@ -1,0 +1,64 @@
+Question,Cypher Query,Result
+What products does Apple produce?,"MATCH (org:Entity {name: 'Apple Inc.'})-[r:Produces]->(product:Entity)
+WHERE product.type = 'PRODUCT'
+RETURN org.name AS Company,
+       product.name AS Product,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",No results found
+How much did AAPL stock increase?,"MATCH (org:Entity)-[r:Increases]->(metric:Entity)
+WHERE org.name CONTAINS 'AAPL' AND metric.type = 'FIN_METRIC'
+RETURN org.name AS Entity, 
+       metric.name AS Metric, 
+       r.date AS Date, 
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC","Over the last month of trading, shares of AAPL stock have gained by 9.29%. from sourceURL: AAPL"
+Who are Apple's competitors?,"MATCH (apple:Entity)-[r]-(competitor:Entity)
+WHERE apple.name CONTAINS 'Apple' 
+  AND (competitor.type = 'COMP' OR competitor.type = 'ORG')
+  AND type(r) IN ['COMPETES_WITH', 'Related_To']
+RETURN apple.name AS Company, 
+       type(r) AS Relationship, 
+       competitor.name AS Competitor, 
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",No results found
+What events affected Apple's stock?,"MATCH (org:Entity)-[r]->(event:Entity)
+WHERE org.name CONTAINS 'Apple' 
+  AND event.type = 'EVENT'
+  AND type(r) IN ['Stock_Rise_Due_To', 'Stock_Decline_Due_To', 'Affects_Stock']
+RETURN org.name AS Company, 
+       type(r) AS Impact, 
+       event.name AS Event, 
+       r.date AS Date, 
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
+What products does Apple produce and which events increased their sales?,"MATCH (org:Entity {name: 'Apple Inc.'})-[r1:Produces]->(product:Entity)-[r2:Increases|Stock_Rise_Due_To]->(target:Entity)
+WHERE product.type = 'PRODUCT' AND (target.type = 'EVENT' OR target.type = 'FIN_METRIC')
+RETURN org.name AS Company,
+       product.name AS Product,
+       type(r2) AS Relationship,
+       target.name AS Target,
+       r2.date AS Date,
+       r2.source_url AS SourceURL,
+       r2.source_text AS Evidence",No results found
+How many relationships does Apple have in the graph?,"MATCH (org:Entity)-[r]-(other:Entity)
+WHERE org.name CONTAINS 'Apple'
+RETURN org.name AS Company,
+       count(r) AS TotalRelationships,
+       collect(DISTINCT type(r)) AS RelationshipTypes,
+       collect(DISTINCT r.source_url)[0..5] AS SampleSourceURLs","Company: Apple | TotalRelationships: 5 | RelationshipTypes: ['Has_Stock_Gain', 'Receives_Revenue_Share', 'Has_Lower_Valuation_Than', 'Discussed_Partnership_For', 'Is_A']
+Company: Apple Inc. | TotalRelationships: 1 | RelationshipTypes: ['CUSTOMER_OF']"
+What happened with Apple in December 2023?,"MATCH (org:Entity)-[r]-(other:Entity)
+WHERE org.name CONTAINS 'Apple' 
+  AND r.date CONTAINS '2023-12'
+RETURN org.name AS Company, 
+       type(r) AS Relationship, 
+       other.name AS RelatedEntity, 
+       other.type AS EntityType, 
+       r.date AS Date, 
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
