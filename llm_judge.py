@@ -1,15 +1,24 @@
+'''
+Implementation of LLM as a judge 
+
+Version: 2026-1-13
+
+Function:
+- grader_judge
+- classic_classifier
+- classifer_judge
+
+'''
 from tqdm.auto import tqdm
 import pandas as pd
+from pandas import DataFrame
 from openai import OpenAI
 from textwrap import dedent
 from judges.base import BaseJudge, Judgment
 from judges.graders.correctness import PrometheusAbsoluteCoarseCorrectness
+import time
+from sklearn.metrics import accuracy_score, f1_score, classification_report, precision_recall_fscore_support
 
-
-# Set the model use change this as need to call different model
-# when run the script will look for the API key and secret key at local environment
-# If you are using ollama locally setting this is unneeded.
-JUDGE_MODEL = "ollama/gpt-oss:20b"
 
 # 
 class KnowledgeGraphJudge(BaseJudge):
@@ -53,58 +62,317 @@ class KnowledgeGraphJudge(BaseJudge):
 
         return Judgment(reasoning=reasoning,score=score, score_type="numerical")
 
-def judging_output(
-            questions_path: str,
-            model_output_path: str,
-            model: BaseJudge,
-            metric_name: str,
-            save_output: bool = True,
-            file_name: str = "llm_evaluation.csv",
-            num_samples: int = 1
-) -> None:
+def grader_judge(
+    questions_path: str,
+    model_output_path: str,
+    evaluator: dict,
+    save_output: bool = True,
+    save_name: str = "judge_output.csv"
+) -> pd.DataFrame:
+    """
+    Evaluate model outputs using multiple metrics and save results in a structured format.
+    
+    Parameters:
+    -----------
+    questions_path: str
+        Path to CSV file containing questions
+    model_output_path: str
+        Path to CSV file containing model outputs
+    evaluator: dict
+        Dictionary mapping metric names to BaseJudge instances
+    save_output: bool
+        Whether to save results to CSV
+    save_name: str
+        Output CSV filename
+    
+    Returns:
+    --------
+    pd.DataFrame
+        DataFrame with all questions, outputs, and metric scores
+    """
+    start_time = time.time()
+    
+    # Load the questions and outputs once
     questions_df = pd.read_csv(questions_path)
     model_output_df = pd.read_csv(model_output_path)
     combined_df = pd.concat([questions_df, model_output_df], axis=1)
-    print(f"Number of questions {combined_df.shape}")
-    result_df = pd.DataFrame(columns=[metric_name])
-    scores = []
-    reasons = []
-
-    for idx, row in tqdm(combined_df.iterrows(), total=combined_df.shape[0], desc="Evaluating Output..."):
-        try:
-            question = row["questions"],
-            output = row["output"],
-            expected = row["expected"]
-            judgment = model.judge(
-                input=question,
-                output=output,
-                expected=expected,
-            )
-            score_val = judgment.score if isinstance(judgment.score, (int, float)) else 0
-            reason_val = getattr(judgment, "reasoning", "")
-        except Exception as e:
-            score_val = 0
-            reason_val = f"judge error: {e}"
-        if idx < 2:
-            print(f"[DEBUG] idx={idx}, question={question} score={score_val} reason={reason_val}")
-        scores.append(score_val)
-        reasons.append(reason_val)
-
-    result_df = pd.DataFrame({metric_name: scores, "reasoning": reasons})
+    
+    print(f"[INFO] Loaded {len(combined_df)} question-answer pairs")
+    
+    # Initialize result DataFrame with input data
+    results_df = combined_df.copy()
+    
+    # Evaluate each metric
+    for metric_name, model in evaluator.items():
+        print(f"[INFO] Model {model.model} is evaluating {metric_name} using {model}...")
+        scores = []
+        reasons = []
+        
+        for idx, row in tqdm(combined_df.iterrows(), total=len(combined_df), desc=f"Evaluating {metric_name}"):
+            try:
+                question = row["questions"]
+                output = row["output"]
+                expected = row.get("expected", None)
+                
+                judgment = model.judge(
+                    input=question,
+                    output=output,
+                    expected=expected,
+                )
+                
+                score_val = judgment.score if isinstance(judgment.score, (int, float)) else 0
+                reason_val = getattr(judgment, "reasoning", "")
+                
+            except Exception as e:
+                score_val = 0
+                reason_val = f"judge error: {e}"
+                print(f"[ERROR] Error at index {idx} for {metric_name}: {e}")
+            
+            scores.append(score_val)
+            reasons.append(reason_val)
+        
+        # Add metric results as columns
+        results_df[f"{metric_name}_score"] = scores
+        results_df[f"{metric_name}_reasoning"] = reasons
+    
+    # Calculate average score across all metrics
+    score_columns = [col for col in results_df.columns if col.endswith("_score")]
+    if score_columns:
+        results_df["average_score"] = results_df[score_columns].mean(axis=1)
+    
+    # Save results
     if save_output:
-        result_df.to_csv(file_name, index=False)
-    print("Evaluation completed")
-    return result_df
-    return None
+        results_df.to_csv(save_name, index=False)
+        print(f"[INFO] Results saved to {save_name}")
+    
+    total_time = time.time() - start_time
+     
+    print_result(
+        no_questions=len(questions_df),
+        total_time=total_time,
+        score_columns=score_columns,
+        results_df=results_df
+    )
+
+    return results_df
+
+def classifer_judge(
+        questions_path:str,
+        model_output_path:str,
+        judges: dict,
+        save_result: True,
+        save_name: str ="classifer_judge_results.csv"
+):  
+    start_time = time.time()
+    
+    # Load the questions and outputs once
+    questions_df = pd.read_csv(questions_path)
+    model_output_df = pd.read_csv(model_output_path)
+    combined_df = pd.concat([questions_df, model_output_df], axis=1)
+    
+    print(f"[INFO] Loaded {len(combined_df)} question-answer pairs")
+    
+    # Initialize result DataFrame with input data
+    results_df = combined_df.copy()
+    
+    # Evaluate each metric
+    for metric_name, model in judges.items():
+        print(f"[INFO] Model {model.model} is evaluating {metric_name} using {model}...")
+        scores = []
+        reasons = []
+        
+        for idx, row in tqdm(combined_df.iterrows(), total=len(combined_df), desc=f"Evaluating {metric_name}"):
+            try:
+                question = row["questions"]
+                output = row["output"]
+                expected = row.get("expected", None)
+                
+                judgment = model.judge(
+                    input=question,
+                    output=output,
+                    expected=expected,
+                )
+                
+                if judgment.score == True:
+                    score_val = 1
+                else:
+                    score_val = 0
+                reason_val = getattr(judgment, "reasoning", "")
+                
+            except Exception as e:
+                score_val = 0
+                reason_val = f"judge error: {e}"
+                print(f"[ERROR] Error at index {idx} for {metric_name}: {e}")
+            
+            scores.append(score_val)
+            reasons.append(reason_val)
+        
+        # Add metric results as columns
+        results_df[f"{metric_name}_score"] = scores
+        results_df[f"{metric_name}_reasoning"] = reasons
+    
+    # Calculate average score across all metrics
+    score_columns = [col for col in results_df.columns if col.endswith("_score")]
+    if score_columns:
+        results_df["average_score"] = results_df[score_columns].mean(axis=1)
+    
+    # Save results
+    if save_result:
+        results_df.to_csv(save_name, index=False)
+        print(f"[INFO] Results saved to {save_name}")
+    
+    total_time = time.time() - start_time
+
+    print_result(
+        no_questions=len(questions_df),
+        total_time=total_time,
+        score_columns=score_columns,
+        results_df=results_df
+    )
+    return results_df
+    
+
+
+def goldenset_classifier(
+    questions_path: str,
+    model_output_path: str,
+    label_col: str = "expected",
+    pred_col: str = "output",
+    save_output: bool = True,
+    save_name: str = "classifier_judge.csv",
+    pos_label=None,
+) -> pd.DataFrame:
+    """
+    Evaluate classifier outputs against golden labels and report F1.
+
+    Parameters
+    ----------
+    questions_path : str
+        CSV with the golden labels (column `label_col`).
+    model_output_path : str
+        CSV with model predictions (column `pred_col`).
+    label_col : str
+        Column name for ground-truth labels in questions CSV.
+    pred_col : str
+        Column name for predicted labels in model outputs CSV.
+    pos_label : optional
+        Positive class for binary F1. If None, macro/weighted F1 are reported.
+    """
+    t0 = time.time()
+    gt_df = pd.read_csv(questions_path)
+    pred_df = pd.read_csv(model_output_path)
+
+    if label_col not in gt_df.columns:
+        raise ValueError(f"Label column '{label_col}' not found in {questions_path}")
+    if pred_col not in pred_df.columns:
+        raise ValueError(f"Prediction column '{pred_col}' not found in {model_output_path}")
+
+    combined = pd.concat([gt_df.reset_index(drop=True), pred_df.reset_index(drop=True)], axis=1)
+    combined.rename(columns={label_col: "gold", pred_col: "pred"}, inplace=True)
+
+    # Per-example correctness
+    combined["correct"] = combined["gold"] == combined["pred"]
+
+    # Metrics
+    acc = accuracy_score(combined["gold"], combined["pred"])
+    macro_f1 = f1_score(combined["gold"], combined["pred"], average="macro")
+    weighted_f1 = f1_score(combined["gold"], combined["pred"], average="weighted")
+    if pos_label is not None:
+        binary_f1 = f1_score(combined["gold"], combined["pred"], average="binary", pos_label=pos_label)
+    else:
+        binary_f1 = None
+
+    cls_report = classification_report(combined["gold"], combined["pred"], digits=3)
+
+    if save_output:
+        combined.to_csv(save_name, index=False)
+        print(f"[INFO] Classifier results saved to {save_name}")
+
+    elapsed = time.time() - t0
+
+    # Report
+    print(f"\n{'='*70}")
+    print("CLASSIFIER EVALUATION REPORT")
+    print(f"{'='*70}")
+    print(f"Samples: {len(combined)}")
+    print(f"Total Time: {elapsed:.2f}s ({elapsed/60:.2f} min)")
+    print(f"Accuracy: {acc:.4f}")
+    print(f"Macro F1: {macro_f1:.4f}")
+    print(f"Weighted F1: {weighted_f1:.4f}")
+    if binary_f1 is not None:
+        print(f"Binary F1 (pos_label={pos_label}): {binary_f1:.4f}")
+    print(f"\nPer-class metrics:\n{cls_report}")
+    print(f"{'='*70}\n")
+
+    return combined
+
+def print_result(
+        no_questions,
+        total_time,
+        score_columns,
+        results_df,
+):
+    """
+    Utilisites function use to print the results
+    """
+    # Print detailed results report
+    print(f"\n{'='*70}")
+    print(f"EVALUATION RESULTS REPORT")
+    print(f"{'='*70}")
+    print(f"Total Questions Evaluated: {no_questions}")
+    print(f"Total Evaluation Time: {total_time:.2f}s ({total_time/60:.2f} minutes)")
+    print(f"\n{'-'*70}")
+    print(f"METRIC SCORES:")
+    print(f"{'-'*70}")
+
+    for col in score_columns:
+        metric_name = col.replace("_score", "")
+        mean_score = results_df[col].mean()
+        std_score = results_df[col].std()
+        min_score = results_df[col].min()
+        max_score = results_df[col].max()
+        print(f"  {metric_name.capitalize():15s} | Mean: {mean_score:.2f} | Std: {std_score:.2f} | Min: {min_score:.2f} | Max: {max_score:.2f}")
+    
+    if "average_score" in results_df.columns:
+        avg_mean = results_df["average_score"].mean()
+        avg_std = results_df["average_score"].std()
+        print(f"{'-'*70}")
+        print(f"  {'Overall Average':15s} | Mean: {avg_mean:.2f} | Std: {avg_std:.2f}")
+    
+    print(f"{'='*70}\n")
 
 if __name__ == "__main__":
-    # Demo how to use
-    TEST_QUESTION = "dummy_questions_llm_judge.csv"
-    TEST_OUTPUT = "dummy_answers_llm_judge.csv"
-    correctness_judge = PrometheusAbsoluteCoarseCorrectness(model=JUDGE_MODEL)
-    judging_output(
-        questions_path=TEST_QUESTION,
-        model_output_path=TEST_OUTPUT,
-        model=correctness_judge,
-        metric_name="correctness",
-    )
+    pass
+    # from judges.graders.correctness import PrometheusAbsoluteCoarseCorrectness
+    # from judges.graders.relevance import ReliableCIRelevance
+    # from judges.classifiers.correctness import PollZeroShotCorrectness
+    # # Demo how to use
+    # JUDGE_MODEL = "ollama/gpt-oss:20b"
+    # TEST_QUESTION = "dummy_questions_llm_judge.csv"
+    # TEST_OUTPUT = "dummy_answers_llm_judge.csv"
+    # GRADERS = {
+    #     "correctness": PrometheusAbsoluteCoarseCorrectness(model=JUDGE_MODEL),
+    #     "relevance": ReliableCIRelevance(model=JUDGE_MODEL)
+    # }
+
+    # CLASSIFIERS = {
+    #     "correctness": PollZeroShotCorrectness(model=JUDGE_MODEL)
+    # }
+    # # results = grader_judge(
+    # #     TEST_QUESTION,
+    # #     TEST_OUTPUT,
+    # #     GRADERS,
+    # #     save_output=True,
+    # #     save_name="test_2_metrics_LLM_judge.csv"
+    # # )
+
+    # results = classifer_judge(
+    #     TEST_QUESTION,
+    #     TEST_OUTPUT,
+    #     CLASSIFIERS,
+    #     True,
+    #     "6_sample_classifier.csv"
+    # )
+    
+    # print(f"Results shape: {results.shape}")
+    # print(f"Columns: {results.columns.tolist()}")
