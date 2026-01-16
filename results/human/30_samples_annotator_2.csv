@@ -1,4 +1,4 @@
-questions,Cypher Query,result
+Question,Cypher Query,Expected,Result,human_correct,Reasoning
 Which company produces consumer electronics according to the document?,"MATCH (company:Entity)-[r:Produces]->(product:Entity)
 WHERE (company.type = 'ORG' OR company.type = 'COMP')
   AND product.type = 'PRODUCT'
@@ -7,30 +7,30 @@ RETURN company.name AS Company,
        product.name AS Product,
        r.date AS Date,
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics from sourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus on Date: 2023-12-01 00:00:00+00:00
+       r.source_text AS Evidence",Apple Inct,Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics from sourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus on Date: 2023-12-01 00:00:00+00:00,1,
 What products is Apple Inc. described as producing?,"MATCH (org:Entity {name: 'Apple Inc.'})-[r:Produces]->(product:Entity)
 WHERE product.type = 'PRODUCT'
 RETURN org.name AS Company,
        product.name AS Product,
        r.date AS Date,
        r.source_url AS SourceURL,
-       r.source_text AS Evidence","Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics from sourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus on Date: 2023-12-01 00:00:00+00:00
+       r.source_text AS Evidence",Consumer Electronics,"Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics from sourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus on Date: 2023-12-01 00:00:00+00:00
 Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software from sourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus on Date: 2023-12-01 00:00:00+00:00
-Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services. from sourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus on Date: 2023-12-01 00:00:00+00:00"
+Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services. from sourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus on Date: 2023-12-01 00:00:00+00:00",1,
 What is the stock ticker associated with Apple Inc.?,"MATCH (apple:Entity {name: 'Apple Inc.'})-[r]-(other:Entity)
 WHERE r.ticker IS NOT NULL
 RETURN apple.name AS Company,
        r.ticker AS Ticker,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-LIMIT 1",Company: Apple Inc. | Ticker: AAPL | SourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus | Evidence: Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics
+LIMIT 1",AAPL,Company: Apple Inc. | Ticker: AAPL | SourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus | Evidence: Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics,1,
 Which geographic region has Apple Inc. invested in according to the news?,"MATCH (org:Entity {name: 'Apple Inc.'})-[r:Invests_In]->(gpe:Entity)
 WHERE gpe.type = 'GPE'
 RETURN org.name AS Company,
        gpe.name AS GeographicRegion,
        r.date AS Date,
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",No results found
+       r.source_text AS Evidence",United States,No results found,0,
 Which financial metric reached an all-time high for Apple?,"MATCH (org:Entity)-[r:Increases]->(metric:Entity)
 WHERE (org.name CONTAINS 'Apple' OR org.name = 'AAPL')
   AND metric.type = 'FIN_METRIC'
@@ -40,7 +40,7 @@ RETURN org.name AS Company,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC",its services unit's revenue set an all-time high from sourceURL: https://www.nasdaq.com/articles/2-tech-dividend-stocks-to-buy-and-hold-forever on Date: 2023-12-01 00:00:00+00:00
+ORDER BY r.date DESC",Service unit revenue,its services unit's revenue set an all-time high from sourceURL: https://www.nasdaq.com/articles/2-tech-dividend-stocks-to-buy-and-hold-forever on Date: 2023-12-01 00:00:00+00:00,1,
 Which regulatory body was involved in a legal case related to Apple?,"MATCH (apple:Entity)-[r1]-(litigation:Entity)-[r2]-(reg_body:Entity)
 WHERE apple.name CONTAINS 'Apple'
   AND litigation.type = 'LITIGATION'
@@ -53,7 +53,7 @@ RETURN apple.name AS Company,
        r2.date AS Date,
        r2.source_url AS SourceURL,
        r2.source_text AS Evidence
-ORDER BY r2.date DESC",No results found
+ORDER BY r2.date DESC",UK Competition Appeal Tribunal,No results found,0,
 What legal action was Apple involved in?,"MATCH (apple:Entity)-[r:Involved_In|Related_To]->(litigation:Entity)
 WHERE apple.name CONTAINS 'Apple' AND litigation.type = 'LITIGATION'
 RETURN apple.name AS Company,
@@ -62,8 +62,8 @@ RETURN apple.name AS Company,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC",The lawfulness of that decision was challenged by Apple by appealing to the CAT from sourceURL: https://www.nasdaq.com/articles/cma-wins-appeal-from-uk-high-court-in-apple-case on Date: 2023-12-01 00:00:00+00:00
-Which company benefits from Safari-related revenue increases?,"MATCH (company:Entity)-[r1:Produces]->(product:Entity {name: 'Safari'}) WHERE company.type IN ['ORG', 'COMP'] AND product.type = 'PRODUCT' MATCH (product)-[r2:Increases]->(metric:Entity) WHERE metric.type = 'FIN_METRIC' AND (toLower(metric.name) CONTAINS 'revenue' OR toLower(metric.name) CONTAINS 'sales' OR toLower(metric.name) CONTAINS 'earnings') RETURN company.name AS CompanyBenefiting, product.name AS RelatedProduct, metric.name AS IncreasedMetric, r2.date AS Date, r2.source_url AS SourceURL, r2.source_text AS Evidence ORDER BY r2.date DESC",No results found
+ORDER BY r.date DESC",An appeal case,The lawfulness of that decision was challenged by Apple by appealing to the CAT from sourceURL: https://www.nasdaq.com/articles/cma-wins-appeal-from-uk-high-court-in-apple-case on Date: 2023-12-01 00:00:00+00:00,0,
+Which company benefits from Safari-related revenue increases?,"MATCH (company:Entity)-[r1:Produces]->(product:Entity {name: 'Safari'}) WHERE company.type IN ['ORG', 'COMP'] AND product.type = 'PRODUCT' MATCH (product)-[r2:Increases]->(metric:Entity) WHERE metric.type = 'FIN_METRIC' AND (toLower(metric.name) CONTAINS 'revenue' OR toLower(metric.name) CONTAINS 'sales' OR toLower(metric.name) CONTAINS 'earnings') RETURN company.name AS CompanyBenefiting, product.name AS RelatedProduct, metric.name AS IncreasedMetric, r2.date AS Date, r2.source_url AS SourceURL, r2.source_text AS Evidence ORDER BY r2.date DESC",Apple Inct,No results found,0,
 Which company is compared competitively with Apple in the smart home market?,"MATCH (apple:Entity)-[r:Related_To]-(competitor:Entity)
 WHERE apple.name CONTAINS 'Apple'
   AND (competitor.type = 'ORG' OR competitor.type = 'COMP')
@@ -74,7 +74,7 @@ RETURN apple.name AS Company,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC","Alphabet to compete well with some notable industry players like Amazon AMZN and Apple AAPL, which are also making concerted efforts to gain a solid footing in the smart home market space. from sourceURL: https://www.nasdaq.com/articles/alphabet-googl-bolsters-nest-hub-series-with-fuchsia-14 on Date: 2023-12-01 00:00:00+00:00"
+ORDER BY r.date DESC",Alphabet,"Alphabet to compete well with some notable industry players like Amazon AMZN and Apple AAPL, which are also making concerted efforts to gain a solid footing in the smart home market space. from sourceURL: https://www.nasdaq.com/articles/alphabet-googl-bolsters-nest-hub-series-with-fuchsia-14 on Date: 2023-12-01 00:00:00+00:00",1,
 Which companies are subject to European Union regulations?,"MATCH (company:Entity)-[r:Subject_To]->(regulator:Entity)
 WHERE (company.type = 'ORG' OR company.type = 'COMP')
   AND regulator.name CONTAINS 'European Union'
@@ -83,14 +83,14 @@ RETURN company.name AS Company,
        regulator.name AS Regulator, 
        r.date AS Date, 
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",No results found
+       r.source_text AS Evidence",Apple Inc.,No results found,0,
 Which government body regulates major technology gatekeepers?,"MATCH (gov:Entity {type: 'ORG_GOV'})-[r:Regulates]->(tech_company:Entity)
 WHERE tech_company.type IN ['ORG', 'COMP']
 RETURN gov.name AS GovernmentBody,
        tech_company.name AS RegulatedEntity,
        r.date AS Date,
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",No results found
+       r.source_text AS Evidence",European Union,No results found,0,
 Which companies suspended advertising on X according to the document?,"MATCH (company:Entity)-[r:Related_To]->(x:Entity)
 WHERE x.name = 'X'
   AND (company.type = 'ORG' OR company.type = 'COMP')
@@ -102,7 +102,7 @@ RETURN company.name AS Company,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC",No results found
+ORDER BY r.date DESC",Apple Inc.,No results found,0,
 Which company is described as a cheaper stock alternative to Apple?,"MATCH (apple:Entity)-[r:Related_To]-(alternative:Entity)
 WHERE apple.name CONTAINS 'Apple' 
   AND alternative.type IN ['ORG', 'COMP']
@@ -111,7 +111,7 @@ RETURN apple.name AS OriginalCompany,
        alternative.name AS AlternativeCompany,
        r.date AS Date,
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",No results found
+       r.source_text AS Evidence",Nvidia,No results found,0,
 Which market index reached new highs in 2023?,"MATCH (index:Entity)-[r:Increases]->(metric:Entity)
 WHERE index.type = 'FIN_MARKET'
   AND metric.type = 'FIN_METRIC'
@@ -121,7 +121,7 @@ RETURN index.name AS MarketIndex,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC","The market is rallying from sourceURL: https://www.nasdaq.com/articles/should-you-really-invest-in-stocks-now-or-wait-until-the-new-year on Date: 2023-12-01 00:00:00+00:00
+ORDER BY r.date DESC",S&P500,"The market is rallying from sourceURL: https://www.nasdaq.com/articles/should-you-really-invest-in-stocks-now-or-wait-until-the-new-year on Date: 2023-12-01 00:00:00+00:00
 all three major indexes climbing from sourceURL: https://www.nasdaq.com/articles/should-you-really-invest-in-stocks-now-or-wait-until-the-new-year on Date: 2023-12-01 00:00:00+00:00
 Wall Street's main indexes inched higher on Friday from sourceURL: https://www.nasdaq.com/articles/us-stocks-wall-st-edges-higher-as-powell-comments-bolster-peak-rate-bets on Date: 2023-12-01 00:00:00+00:00
 U.S. stocks advanced on Friday from sourceURL: https://www.nasdaq.com/articles/us-stocks-wall-st-rallies-as-powell-cements-peak-rate-bets on Date: 2023-12-01 00:00:00+00:00
@@ -137,7 +137,7 @@ Nasdaq 0.55% from sourceURL: https://www.nasdaq.com/articles/us-stocks-sp-500-hi
 the S&P 500 and the Nasdaq registered their biggest one-month percentage gains since July 2022 from sourceURL: https://www.nasdaq.com/articles/us-stocks-sp-500-hits-2023-closing-high-as-powell-strengthens-peak-rate-bets on Date: 2023-12-01 00:00:00+00:00
 the S&P 500 and the Nasdaq registered their biggest one-month percentage gains since July 2022 from sourceURL: https://www.nasdaq.com/articles/us-stocks-sp-500-hits-2023-closing-high-as-powell-strengthens-peak-rate-bets on Date: 2023-12-01 00:00:00+00:00
 both the indexes finished November with their biggest monthly gain since July 2022 from sourceURL: https://www.nasdaq.com/articles/us-stocks-sp-nasdaq-slip-as-caution-prevails-ahead-of-powell-comments on Date: 2023-12-01 00:00:00+00:00
-both the indexes finished November with their biggest monthly gain since July 2022 from sourceURL: https://www.nasdaq.com/articles/us-stocks-sp-nasdaq-slip-as-caution-prevails-ahead-of-powell-comments on Date: 2023-12-01 00:00:00+00:00"
+both the indexes finished November with their biggest monthly gain since July 2022 from sourceURL: https://www.nasdaq.com/articles/us-stocks-sp-nasdaq-slip-as-caution-prevails-ahead-of-powell-comments on Date: 2023-12-01 00:00:00+00:00",0,
 Which market index includes Apple as a major component?,"MATCH (apple:Entity)-[r:Member_Of|Related_To]->(marketIndex:Entity)
 WHERE apple.name CONTAINS 'Apple' AND marketIndex.type = 'FIN_MARKET'
 RETURN apple.name AS Company,
@@ -145,7 +145,7 @@ RETURN apple.name AS Company,
        marketIndex.name AS MarketIndex,
        r.date AS Date,
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",Apple Inc. (NASDAQ: AAPL) from sourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus on Date: 2023-12-01 00:00:00+00:00
+       r.source_text AS Evidence",Nasdag,Apple Inc. (NASDAQ: AAPL) from sourceURL: https://www.nasdaq.com/articles/best-blue-chip-stocks-to-invest-in-right-now-2-in-focus on Date: 2023-12-01 00:00:00+00:00,0,
 What major market event occurred in late 2023?,"MATCH (event:Entity)-[r]-(other:Entity)
 WHERE event.type = 'EVENT'
   AND (r.date STARTS WITH '2023-10' OR r.date STARTS WITH '2023-11' OR r.date STARTS WITH '2023-12')
@@ -156,14 +156,14 @@ RETURN event.name AS Event,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC","a gain of about as much in the previous year. from sourceURL: https://www.nasdaq.com/articles/should-you-really-invest-in-stocks-now-or-wait-until-the-new-year on Date: 2023-12-01 00:00:00+00:00
+ORDER BY r.date DESC",Equity Market Rally,"a gain of about as much in the previous year. from sourceURL: https://www.nasdaq.com/articles/should-you-really-invest-in-stocks-now-or-wait-until-the-new-year on Date: 2023-12-01 00:00:00+00:00
 December brought the S&P 500 index a loss of about 5% last year from sourceURL: https://www.nasdaq.com/articles/should-you-really-invest-in-stocks-now-or-wait-until-the-new-year on Date: 2023-12-01 00:00:00+00:00
 and suspended CMA's investigation. from sourceURL: https://www.nasdaq.com/articles/cma-wins-appeal-from-uk-high-court-in-apple-case on Date: 2023-12-01 00:00:00+00:00
 mainly of tech major Apple Inc. (AAPL). from sourceURL: https://www.nasdaq.com/articles/cma-wins-appeal-from-uk-high-court-in-apple-case on Date: 2023-12-01 00:00:00+00:00
 November, historically a strong month for the index. from sourceURL: https://www.nasdaq.com/articles/wall-st-week-ahead-tax-loss-selling-santa-rally-could-sway-u.s.-stocks-after-november-melt on Date: 2023-12-01 00:00:00+00:00
 Tax-loss selling, 'Santa rally' could sway U.S. stocks from sourceURL: https://www.nasdaq.com/articles/wall-st-week-ahead-tax-loss-selling-santa-rally-could-sway-u.s.-stocks-after-november-melt on Date: 2023-12-01 00:00:00+00:00
 Tax-loss selling, 'Santa rally' could sway U.S. stocks from sourceURL: https://www.nasdaq.com/articles/wall-st-week-ahead-tax-loss-selling-santa-rally-could-sway-u.s.-stocks-after-november-melt on Date: 2023-12-01 00:00:00+00:00
-many investors came away from the Fed’s Nov. 1 meeting more confident that the central bank was close to wrapping up its rate increases. from sourceURL: https://www.nasdaq.com/articles/graphic-resurgent-sp-500-crests-new-2023-closing-high-after-roller-coaster-year on Date: 2023-12-01 00:00:00+00:00"
+many investors came away from the Fed’s Nov. 1 meeting more confident that the central bank was close to wrapping up its rate increases. from sourceURL: https://www.nasdaq.com/articles/graphic-resurgent-sp-500-crests-new-2023-closing-high-after-roller-coaster-year on Date: 2023-12-01 00:00:00+00:00",0,
 Which companies are related to content or streaming services?,"MATCH (company:Entity)-[r:Related_To]-(service:Entity)
 WHERE (company.type = 'ORG' OR company.type = 'COMP')
   AND (service.name CONTAINS 'content' OR service.name CONTAINS 'streaming service' OR service.name CONTAINS 'streaming services')
@@ -174,7 +174,7 @@ RETURN company.name AS Company,
        service.type AS ServiceType,
        r.date AS Date,
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",No results found
+       r.source_text AS Evidence",Apple Inc.,No results found,0,
 Which company is Apple discussing a streaming bundle partnership with?,"MATCH (apple:Entity)-[r]-(partner:Entity)
 WHERE apple.name CONTAINS 'Apple'
   AND partner.type IN ['ORG', 'COMP']
@@ -186,29 +186,29 @@ RETURN apple.name AS Company1,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC",No results found
+ORDER BY r.date DESC",Paramount Global,No results found,0,
 What relationship exists between Apple Inc. and Paramount Global?,"MATCH (e1:Entity {name: 'Apple Inc.'})-[r]-(e2:Entity {name: 'Paramount Global'})
 RETURN e1.name AS Entity1,
        type(r) AS RelationshipType,
        e2.name AS Entity2,
        r.date AS Date,
        r.source_url AS SourceURL,
-       r.source_text AS Evidence","Apple Inc. (AAPL) and Paramount Global are in talks to bundle Paramount+ and Apple TV+ together from sourceURL: https://www.nasdaq.com/articles/wsj%3A-apple-in-talks-to-bundle-paramount-with-apple-tv on Date: 2023-12-01 00:00:00+00:00
-Apple Inc. (AAPL) and Paramount Global are in talks to bundle Paramount+ and Apple TV+ together from sourceURL: https://www.nasdaq.com/articles/wsj%3A-apple-in-talks-to-bundle-paramount-with-apple-tv on Date: 2023-12-01 00:00:00+00:00"
+       r.source_text AS Evidence",Partners_with,"Apple Inc. (AAPL) and Paramount Global are in talks to bundle Paramount+ and Apple TV+ together from sourceURL: https://www.nasdaq.com/articles/wsj%3A-apple-in-talks-to-bundle-paramount-with-apple-tv on Date: 2023-12-01 00:00:00+00:00
+Apple Inc. (AAPL) and Paramount Global are in talks to bundle Paramount+ and Apple TV+ together from sourceURL: https://www.nasdaq.com/articles/wsj%3A-apple-in-talks-to-bundle-paramount-with-apple-tv on Date: 2023-12-01 00:00:00+00:00",0,
 Which sector do Apple and Alphabet operate in?,"MATCH (company:Entity)-[r:Operates_In]->(sector:Entity)
 WHERE company.name IN ['Apple Inc.', 'Alphabet Inc.'] AND company.type IN ['ORG', 'COMP'] AND sector.type = 'SECTOR'
 RETURN company.name AS Company, 
        sector.name AS Sector, 
        r.date AS Date, 
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",No results found
+       r.source_text AS Evidence",Technology,No results found,0,
 Which companies are members of the Magnificent Seven?,"MATCH (group:Entity)-[r:Member_Of]->(company:Entity)
 WHERE group.name CONTAINS 'Magnificent Seven' AND (company.type = 'ORG' OR company.type = 'COMP')
 RETURN group.name AS Group, 
        company.name AS Company, 
        r.date AS Date, 
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",No results found
+       r.source_text AS Evidence",Apple Inc.,No results found,0,
 Which financial metrics are associated with Alphabet?,"MATCH (org:Entity {name: 'Alphabet Inc.'})-[r]-(metric:Entity)
 WHERE metric.type = 'FIN_METRIC'
 RETURN org.name AS Company,
@@ -217,7 +217,7 @@ RETURN org.name AS Company,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC",No results found
+ORDER BY r.date DESC",Share price,No results found,0,
 Which macroeconomic condition influenced markets in late 2023?,"MATCH (macro:Entity)-[r]->(market:Entity)
 WHERE macro.type = 'MACRO_CONDITION'
   AND market.type = 'FIN_MARKET'
@@ -229,7 +229,7 @@ RETURN macro.name AS MacroCondition,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC","signalled easing inflation and bolstered hopes the central bank would now end its interest rate hikes and could start lowering them soon, propelling a rally in equities. from sourceURL: https://www.nasdaq.com/articles/us-stocks-wall-st-edges-higher-as-powell-comments-bolster-peak-rate-bets on Date: 2023-12-01 00:00:00+00:00"
+ORDER BY r.date DESC",Easing inflation,"signalled easing inflation and bolstered hopes the central bank would now end its interest rate hikes and could start lowering them soon, propelling a rally in equities. from sourceURL: https://www.nasdaq.com/articles/us-stocks-wall-st-edges-higher-as-powell-comments-bolster-peak-rate-bets on Date: 2023-12-01 00:00:00+00:00",1,
 Which financial institution provided market commentary?,"MATCH (finInst:Entity)-[r]->(commentary:Entity)
 WHERE finInst.type = 'FIN_INST' AND commentary.type = 'COMMENTARY'
 RETURN finInst.name AS FinancialInstitution,
@@ -237,7 +237,7 @@ RETURN finInst.name AS FinancialInstitution,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC",No results found
+ORDER BY r.date DESC",BofA Global Research,No results found,0,
 What major investment announcement did Apple make?,"MATCH (apple:Entity)-[r:Announces]->(target:Entity)
 WHERE apple.name CONTAINS 'Apple'
   AND target.type IN ['ORG', 'COMP', 'EVENT', 'FIN_METRIC', 'CONCEPT']
@@ -248,22 +248,22 @@ RETURN apple.name AS Company,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-ORDER BY r.date DESC","Apple Inc. announced it will be the first and largest customer of Amkor Technology, Inc.'s new $2 billion advanced silicon manufacturing and packaging facility from sourceURL: https://www.nasdaq.com/articles/apple-to-be-first-and-largest-customer-of-amkors-%242-bln-chip-packaging-plant on Date: 2023-12-01 00:00:00+00:00"
+ORDER BY r.date DESC",Investment in Amkor packaging plant,"Apple Inc. announced it will be the first and largest customer of Amkor Technology, Inc.'s new $2 billion advanced silicon manufacturing and packaging facility from sourceURL: https://www.nasdaq.com/articles/apple-to-be-first-and-largest-customer-of-amkors-%242-bln-chip-packaging-plant on Date: 2023-12-01 00:00:00+00:00",1,
 Which companies are subject to the Digital Markets Act?,"MATCH (company:Entity)-[r:Subject_To]->(regulation:Entity)
 WHERE regulation.name CONTAINS 'Digital Markets Act' AND (company.type = 'COMP' OR company.type = 'ORG')
 RETURN company.name AS Company,
        regulation.name AS Regulation,
        r.date AS Date,
        r.source_url AS SourceURL,
-       r.source_text AS Evidence",No results found
-What type of entity is the European Union in the graph?,"MATCH (entity:Entity {name: 'European Union'}) RETURN entity.name AS EntityName, entity.type AS EntityType",No results found
+       r.source_text AS Evidence",Apple Inc.,No results found,0,
+What type of entity is the European Union in the graph?,"MATCH (entity:Entity {name: 'European Union'}) RETURN entity.name AS EntityName, entity.type AS EntityType",Goverment Body,No results found,0,
 Which entity represents Apple in the knowledge graph?,"MATCH (entity:Entity)
 WHERE entity.name CONTAINS 'Apple'
-RETURN entity.name AS EntityName, entity.type AS EntityType","EntityName: appeal by Apple | EntityType: LITIGATION
+RETURN entity.name AS EntityName, entity.type AS EntityType",Apple Inc.,"EntityName: appeal by Apple | EntityType: LITIGATION
 EntityName: Apple silicon | EntityType: PRODUCT
 EntityName: Apple Inc. | EntityType: ORG
 EntityName: Apple | EntityType: ORG
-EntityName: Apple's services unit | EntityType: SEGMENT"
+EntityName: Apple's services unit | EntityType: SEGMENT",0,
 What type of event is the equity market rally?,"MATCH (event:Entity {name: 'equity market rally'})-[r]-(other:Entity)
 WHERE event.type = 'EVENT'
 RETURN event.name AS EventName,
@@ -273,7 +273,7 @@ RETURN event.name AS EventName,
        r.date AS Date,
        r.source_url AS SourceURL,
        r.source_text AS Evidence
-LIMIT 1",No results found
+LIMIT 1",Event,No results found,0,
 "Which sector do Apple, Alphabet, and Nvidia all operate in?","MATCH (apple:Entity {name: 'Apple Inc.'})-[r_apple:Operates_In]->(sector:Entity)
 WHERE sector.type = 'SECTOR'
 MATCH (alphabet:Entity {name: 'Alphabet Inc.'})-[r_alphabet:Operates_In]->(sector)
@@ -281,4 +281,4 @@ MATCH (nvidia:Entity {name: 'NVIDIA Corporation'})-[r_nvidia:Operates_In]->(sect
 RETURN sector.name AS CommonSector,
        r_apple.source_url AS Apple_SourceURL, r_apple.source_text AS Apple_Evidence,
        r_alphabet.source_url AS Alphabet_SourceURL, r_alphabet.source_text AS Alphabet_Evidence,
-       r_nvidia.source_url AS Nvidia_SourceURL, r_nvidia.source_text AS Nvidia_Evidence",No results found
+       r_nvidia.source_url AS Nvidia_SourceURL, r_nvidia.source_text AS Nvidia_Evidence",Technology,No results found,0,

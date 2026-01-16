@@ -62,6 +62,31 @@ class KnowledgeGraphJudge(BaseJudge):
 
         return Judgment(reasoning=reasoning,score=score, score_type="numerical")
 
+def get_column_value(row, possible_names):
+    """
+    Flexible column retrieval that checks multiple possible column names.
+    
+    Parameters:
+    -----------
+    row : pd.Series
+        The row to extract from
+    possible_names : list or str
+        List of possible column names to check, or a single string
+    
+    Returns:
+    --------
+    str or None
+        The value if found, None otherwise
+    """
+    if isinstance(possible_names, str):
+        possible_names = [possible_names]
+    
+    for col_name in possible_names:
+        if col_name in row.index and pd.notna(row[col_name]):
+            return str(row[col_name]).strip()
+    
+    return None
+
 def grader_judge(
     questions_path: str,
     model_output_path: str,
@@ -119,9 +144,16 @@ def grader_judge(
                     output=output,
                     expected=expected,
                 )
-                
-                score_val = judgment.score if isinstance(judgment.score, (int, float)) else 0
-                reason_val = getattr(judgment, "reasoning", "")
+                   
+                # Handle both boolean and other score types
+                if hasattr(judgment, 'score'):
+                    score_val = judgment.score
+                    if isinstance(score_val, bool):
+                        score_val = 1 if score_val else 0
+                    elif not isinstance(score_val, (int, float)):
+                        score_val = 1 if str(score_val).lower() == 'true' else 0
+                else:
+                    score_val = 0
                 
             except Exception as e:
                 score_val = 0
@@ -163,6 +195,7 @@ def classifer_judge(
         save_result: True,
         save_name: str ="classifer_judge_results.csv"
 ):  
+    
     start_time = time.time()
     
     # Load the questions and outputs once
@@ -183,9 +216,9 @@ def classifer_judge(
         
         for idx, row in tqdm(combined_df.iterrows(), total=len(combined_df), desc=f"Evaluating {metric_name}"):
             try:
-                question = row["questions"]
-                output = row["output"]
-                expected = row.get("expected", None)
+                question = str(row["questions"])
+                output = str(row["output"])
+                expected = str(row.get("expected", "")) if "expected" in row else None
                 
                 judgment = model.judge(
                     input=question,

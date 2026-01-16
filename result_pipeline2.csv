@@ -1,0 +1,289 @@
+questions,Cypher Query,result
+Which company produces consumer electronics according to the document?,"MATCH (company:Entity)-[r:Produces]->(product:Entity)
+WHERE (company.type = 'ORG' OR company.type = 'COMP')
+  AND product.type = 'PRODUCT'
+  AND product.name CONTAINS 'consumer electronics'
+RETURN company.name AS Company,
+       product.name AS Product,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence","Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services. from sourceURL: AAPL"
+What products is Apple Inc. described as producing?,"MATCH (org:Entity {name: 'Apple Inc.'})-[r:Produces]->(product:Entity)
+WHERE product.type = 'PRODUCT'
+RETURN org.name AS Company,
+       product.name AS Product,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence","Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services. from sourceURL: AAPL
+Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services. from sourceURL: AAPL
+Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services. from sourceURL: AAPL
+Apple Inc. (AAPL) and Paramount Global are in talks to bundle Paramount+ and Apple TV+ together from sourceURL: AAPL
+mainly of tech major Apple Inc. (AAPL). from sourceURL: AAPL
+mainly of tech major Apple Inc. (AAPL). from sourceURL: AAPL"
+What is the stock ticker associated with Apple Inc.?,"MATCH (apple:Entity {name: 'Apple Inc.'})-[r]-(other:Entity)
+WHERE r.ticker IS NOT NULL
+RETURN DISTINCT r.ticker AS Ticker,
+       head(collect(r.source_url)) AS SourceURL,
+       head(collect(r.source_text)) AS Evidence","Apple Inc. (AAPL) is a multinational technology company that specializes in consumer electronics, software, and online services. from sourceURL: AAPL"
+Which geographic region has Apple Inc. invested in according to the news?,"MATCH (apple:Entity {name: 'Apple Inc.'})-[r:Invests_In]->(region:Entity)
+WHERE region.type = 'GPE'
+RETURN apple.name AS Company,
+       region.name AS GeographicRegion,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",No results found
+Which financial metric reached an all-time high for Apple?,"MATCH (org:Entity)-[r:Increases]->(metric:Entity)
+WHERE org.name CONTAINS 'Apple'
+  AND metric.type = 'FIN_METRIC'
+  AND (r.source_text CONTAINS 'all-time high' OR r.source_text CONTAINS 'record high' OR r.source_text CONTAINS 'highest ever')
+RETURN org.name AS Company,
+       metric.name AS FinancialMetric,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",its services unit's revenue set an all-time high from sourceURL: AAPL
+Which regulatory body was involved in a legal case related to Apple?,"MATCH (apple:Entity)-[r1]-(litigation:Entity)-[r2]-(reg_body:Entity)
+WHERE apple.name CONTAINS 'Apple'
+  AND litigation.type = 'LITIGATION'
+  AND reg_body.type = 'ORG_REG'
+  AND type(r1) IN ['Involved_In', 'Faces', 'Related_To']
+  AND type(r2) IN ['Involved_In', 'Regulates', 'Related_To']
+RETURN apple.name AS Company,
+       litigation.name AS LegalCase,
+       reg_body.name AS RegulatoryBody,
+       r2.date AS Date,
+       r2.source_url AS SourceURL,
+       r2.source_text AS Evidence
+ORDER BY r2.date DESC",No results found
+What legal action was Apple involved in?,"MATCH (org:Entity)-[r:Involved_In]->(litigation:Entity)
+WHERE org.name CONTAINS 'Apple' AND litigation.type = 'LITIGATION'
+RETURN org.name AS Company,
+       litigation.name AS LegalAction,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC","The lawfulness of that decision was challenged by Apple from sourceURL: AAPL
+by appealing to the CAT from sourceURL: AAPL"
+Which company benefits from Safari-related revenue increases?,"MATCH (company:Entity)-[:Produces]->(product:Entity {name: 'Safari', type: 'PRODUCT'})-[r:Increases]->(metric:Entity)
+WHERE company.type IN ['ORG', 'COMP'] AND metric.type = 'FIN_METRIC'
+RETURN company.name AS Company,
+       product.name AS Product,
+       metric.name AS IncreasedMetric,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",No results found
+Which company is compared competitively with Apple in the smart home market?,"MATCH (apple:Entity)-[r]-(competitor:Entity)
+WHERE apple.name CONTAINS 'Apple'
+  AND (competitor.type = 'COMP' OR competitor.type = 'ORG')
+  AND type(r) IN ['COMPETES_WITH', 'Related_To']
+  AND r.source_text CONTAINS 'smart home'
+RETURN apple.name AS Company1,
+       type(r) AS Relationship,
+       competitor.name AS Company2,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",No results found
+Which companies are subject to European Union regulations?,"MATCH (company:Entity)-[r:Subject_To]->(regulation:Entity)
+WHERE (company.type = 'ORG' OR company.type = 'COMP')
+  AND (regulation.name CONTAINS 'European Union' OR regulation.name CONTAINS 'EU')
+  AND (regulation.type = 'ORG_GOV' OR regulation.type = 'ORG_REG')
+RETURN company.name AS Company, 
+       regulation.name AS RegulationBody,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",No results found
+Which government body regulates major technology gatekeepers?,"MATCH (gov_body:Entity)-[r:Regulates]->(regulated_entity:Entity)
+WHERE gov_body.type = 'ORG_GOV'
+  AND (regulated_entity.type = 'ORG' OR regulated_entity.type = 'COMP')
+RETURN gov_body.name AS GovernmentBody,
+       regulated_entity.name AS RegulatedEntity,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",No results found
+Which companies suspended advertising on X according to the document?,"MATCH (company:Entity)-[r:Related_To]->(x:Entity)
+WHERE x.name = 'X' AND (company.type = 'ORG' OR company.type = 'COMP')
+  AND r.source_text CONTAINS 'suspended advertising on X'
+RETURN company.name AS Company, 
+       r.date AS Date,
+       r.source_url AS SourceURL, 
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
+Which company is described as a cheaper stock alternative to Apple?,"MATCH (apple:Entity)-[r:Related_To]->(alternative:Entity)
+WHERE apple.name CONTAINS 'Apple'
+  AND (alternative.type = 'COMP' OR alternative.type = 'ORG')
+  AND toLower(r.source_text) CONTAINS 'cheaper'
+  AND toLower(r.source_text) CONTAINS 'alternative'
+  AND toLower(r.source_text) CONTAINS 'apple'
+RETURN apple.name AS Company,
+       alternative.name AS CheaperAlternative,
+       type(r) AS RelationshipType,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
+Which market index reached new highs in 2023?,"MATCH (market:Entity {type: 'FIN_MARKET'})-[r:Increases]->(metric:Entity)
+WHERE r.date CONTAINS '2023'
+  AND (r.source_text CONTAINS 'new highs' OR r.source_text CONTAINS 'record high' OR r.source_text CONTAINS 'all-time high')
+RETURN market.name AS MarketIndex,
+       metric.name AS MetricIncreased,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
+Which market index includes Apple as a major component?,"MATCH (apple:Entity)-[r:Member_Of]->(marketIndex:Entity)
+WHERE apple.name CONTAINS 'Apple' AND marketIndex.type = 'FIN_MARKET'
+RETURN apple.name AS Company,
+       marketIndex.name AS MarketIndex,
+       type(r) AS RelationshipType,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",2 Dow 30 Stocks For Your December 2023 Watchlist Apple (AAPL Stock) from sourceURL: AAPL
+What major market event occurred in late 2023?,"MATCH (event:Entity)-[r]-(marketRelated:Entity)
+WHERE event.type = 'EVENT'
+  AND (marketRelated.type = 'FIN_MARKET' OR marketRelated.type = 'ECON_IND')
+  AND (r.date CONTAINS '2023-10' OR r.date CONTAINS '2023-11' OR r.date CONTAINS '2023-12')
+RETURN event.name AS Event,
+       type(r) AS RelationshipType,
+       marketRelated.name AS RelatedMarketEntity,
+       marketRelated.type AS RelatedEntityType,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC","historically a strong month for the index. from sourceURL: AAPL
+The S&P 500 gained nearly 9% gain in November from sourceURL: AAPL"
+Which companies are related to content or streaming services?,"MATCH (company:Entity)-[r]-(service:Entity)
+WHERE company.type IN ['ORG', 'COMP']
+  AND (service.name CONTAINS 'content' OR service.name CONTAINS 'streaming service')
+  AND service.type IN ['PRODUCT', 'CONCEPT']
+RETURN company.name AS Company,
+       type(r) AS RelationshipType,
+       service.name AS RelatedServiceOrConcept,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence","the media company and Apple AAPL.O have discussed bundling their streaming services at a discount. from sourceURL: AAPL
+the media company and Apple AAPL.O have discussed bundling their streaming services at a discount. from sourceURL: AAPL
+Apple AAPL.O have discussed bundling their streaming services at a discount. from sourceURL: AAPL
+Apple AAPL.O have discussed bundling their streaming services at a discount. from sourceURL: AAPL
+Paramount delivers premium content to audiences across platforms worldwide. from sourceURL: AAPL
+Apple AAPL.O and Paramount Global PARA.O have discussed bundling their streaming services at a discount from sourceURL: AAPL
+Apple AAPL.O and Paramount Global PARA.O have discussed bundling their streaming services at a discount from sourceURL: AAPL"
+Which company is Apple discussing a streaming bundle partnership with?,"MATCH (apple:Entity {name: 'Apple Inc.'})-[r]-(partner:Entity)
+WHERE partner.type IN ['ORG', 'COMP']
+  AND type(r) IN ['Partners_With', 'Related_To']
+  AND toLower(r.source_text) CONTAINS toLower('streaming bundle partnership')
+RETURN apple.name AS Company1,
+       partner.name AS Company2,
+       type(r) AS RelationshipType,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",No results found
+What relationship exists between Apple Inc. and Paramount Global?,"MATCH (apple:Entity {name: 'Apple Inc.'})-[r]-(paramount:Entity {name: 'Paramount Global'})
+RETURN apple.name AS Entity1,
+       type(r) AS RelationshipType,
+       paramount.name AS Entity2,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",Apple Inc. (AAPL) and Paramount Global are in talks to bundle Paramount+ and Apple TV+ together from sourceURL: AAPL
+Which sector do Apple and Alphabet operate in?,"MATCH (company:Entity)-[r:Operates_In|Member_Of|Related_To]->(sector:Entity)
+WHERE company.name IN ['Apple Inc.', 'Alphabet Inc.'] AND sector.type = 'SECTOR'
+RETURN company.name AS Company,
+       sector.name AS Sector,
+       type(r) AS RelationshipType,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence",Apple Inc. (AAPL) is a multinational technology company from sourceURL: AAPL
+Which companies are members of the Magnificent Seven?,"MATCH (company:Entity)-[r:Member_Of]->(group:Entity {name: 'Magnificent Seven'}) WHERE company.type IN ['ORG', 'COMP'] AND group.type IN ['CONCEPT', 'SEGMENT'] RETURN company.name AS Company, group.name AS Group, r.date AS Date, r.source_url AS SourceURL, r.source_text AS Evidence","The so-called ""Magnificent Seven"" -- Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O from sourceURL: AAPL
+The so-called ""Magnificent Seven"" -- Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O from sourceURL: AAPL
+The so-called ""Magnificent Seven"" -- Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O from sourceURL: AAPL
+The so-called ""Magnificent Seven"" -- Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O from sourceURL: AAPL
+The so-called ""Magnificent Seven"" -- Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O from sourceURL: AAPL
+The so-called ""Magnificent Seven"" -- Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O from sourceURL: AAPL
+The so-called ""Magnificent Seven"" -- Apple AAPL.O, Microsoft MSFT.O, Alphabet GOOGL.O, Amazon AMZN.O, Nvidia NVDA.O, Meta Platforms META.O and Tesla TSLA.O from sourceURL: AAPL"
+Which financial metrics are associated with Alphabet?,"MATCH (org:Entity {name: 'Alphabet Inc.'})-[r]-(metric:Entity)
+WHERE metric.type = 'FIN_METRIC'
+RETURN org.name AS Company,
+       type(r) AS RelationshipType,
+       metric.name AS FinancialMetric,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
+Which macroeconomic condition influenced markets in late 2023?,"MATCH (macro:Entity)-[r]->(market:Entity)
+WHERE macro.type = 'MACRO_CONDITION'
+  AND market.type = 'FIN_MARKET'
+  AND type(r) IN ['Impacts', 'Positively_Impacts', 'Negatively_Impacts', 'Market_Reacts_To']
+  AND (r.date CONTAINS '2023-10' OR r.date CONTAINS '2023-11' OR r.date CONTAINS '2023-12')
+RETURN macro.name AS MacroCondition,
+       type(r) AS InfluenceType,
+       market.name AS Market,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
+Which financial institution provided market commentary?,"MATCH (fin_inst:Entity)-[r:Announces|Discloses]->(commentary:Entity)
+WHERE fin_inst.type = 'FIN_INST' AND commentary.type = 'COMMENTARY'
+RETURN fin_inst.name AS FinancialInstitution,
+       commentary.name AS MarketCommentary,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
+What major investment announcement did Apple make?,"MATCH (apple:Entity)-[r:Announces]->(target:Entity)
+WHERE apple.name CONTAINS 'Apple'
+  AND (apple.type = 'ORG' OR apple.type = 'COMP')
+  AND (target.type IN ['ORG', 'FIN_INST', 'CONCEPT', 'EVENT'])
+  AND toLower(r.source_text) CONTAINS 'investment'
+RETURN apple.name AS Company,
+       type(r) AS RelationshipType,
+       target.name AS AnnouncedItem,
+       target.type AS AnnouncedItemType,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
+Which companies are subject to the Digital Markets Act?,"MATCH (company:Entity)-[r:Subject_To]->(regulation:Entity)
+WHERE (company.type = 'ORG' OR company.type = 'COMP')
+  AND regulation.name CONTAINS 'Digital Markets Act'
+  AND regulation.type = 'REGULATORY_REQUIREMENT'
+RETURN company.name AS Company,
+       regulation.name AS Regulation,
+       r.date AS Date,
+       r.source_url AS SourceURL,
+       r.source_text AS Evidence
+ORDER BY r.date DESC",No results found
+What type of entity is the European Union in the graph?,"MATCH (entity:Entity {name: 'European Union'}) RETURN entity.name AS EntityName, entity.type AS EntityType",No results found
+Which entity represents Apple in the knowledge graph?,"MATCH (e:Entity)
+WHERE e.name CONTAINS 'Apple'
+RETURN e.name AS EntityName, e.type AS EntityType","EntityName: Apple Inc. | EntityType: ORG
+EntityName: Apple | EntityType: ORG
+EntityName: Apple's services unit | EntityType: SEGMENT
+EntityName: Apple AAPL.O | EntityType: ORG
+EntityName: Apple AAPL | EntityType: ORG
+EntityName: Apple (AAPL) | EntityType: ORG
+EntityName: Apple TV+ | EntityType: PRODUCT
+EntityName: Talks to bundle Paramount+ and Apple TV+ | EntityType: EVENT
+EntityName: appeal by Apple | EntityType: LITIGATION
+EntityName: Apple silicon | EntityType: PRODUCT"
+What type of event is the equity market rally?,"MATCH (event:Entity {name: 'equity market rally'})
+OPTIONAL MATCH (event)-[r]-(related:Entity)
+RETURN event.name AS EventName,
+       event.type AS EventType,
+       CASE WHEN r IS NOT NULL THEN type(r) ELSE NULL END AS RelationshipType,
+       CASE WHEN related IS NOT NULL THEN related.name ELSE NULL END AS RelatedEntity,
+       CASE WHEN r IS NOT NULL THEN r.date ELSE NULL END AS Date,
+       CASE WHEN r IS NOT NULL THEN r.source_url ELSE NULL END AS SourceURL,
+       CASE WHEN r IS NOT NULL THEN r.source_text ELSE NULL END AS Evidence
+LIMIT 1",No results found
+"Which sector do Apple, Alphabet, and Nvidia all operate in?","MATCH (apple:Entity)-[r_apple:Operates_In]->(sector:Entity {type: 'SECTOR'})
+WHERE apple.name CONTAINS 'Apple' OR apple.ticker = 'AAPL'
+MATCH (alphabet:Entity)-[r_alphabet:Operates_In]->(sector)
+WHERE alphabet.name CONTAINS 'Alphabet' OR alphabet.ticker IN ['GOOG', 'GOOGL']
+MATCH (nvidia:Entity)-[r_nvidia:Operates_In]->(sector)
+WHERE nvidia.name CONTAINS 'NVIDIA' OR nvidia.ticker = 'NVDA'
+RETURN sector.name AS CommonSector,
+       r_apple.source_url AS AppleSourceURL,
+       r_apple.source_text AS AppleEvidence,
+       r_alphabet.source_url AS AlphabetSourceURL,
+       r_alphabet.source_text AS AlphabetEvidence,
+       r_nvidia.source_url AS NvidiaSourceURL,
+       r_nvidia.source_text AS NvidiaEvidence",No results found

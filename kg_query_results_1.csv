@@ -1,0 +1,51 @@
+question,cypher,result,c.ticker,c.name,i.name,e.name,m.name
+Which company produces consumer electronics according to the document?,MATCH (c:Entity {type:'ORG'})-[:RELATIONSHIP {type:'Produces'}]->(p:Entity {type:'PRODUCT'}) WHERE p.name CONTAINS 'consumer electronics' RETURN c.name,,,,,,
+What products is Apple Inc. described as producing?,MATCH (c:Entity {name:'Apple Inc.'})-[:RELATIONSHIP {type:'Produces'}]->(p:Entity) RETURN p.name,,,,,,
+What is the stock ticker associated with Apple Inc.?,MATCH (c:Entity {name:'Apple Inc.'}) RETURN c.ticker,,,,,,
+Which geographic region has Apple Inc. invested in according to the news?,MATCH (c:Entity {name:'Apple Inc.'})-[:RELATIONSHIP {type:'Invests_In'}]->(g:Entity {type:'GPE'}) RETURN g.name,,,,,,
+Which financial metric reached an all-time high for Apple?,MATCH (c:Entity {name:'Apple Inc.'})-[:RELATIONSHIP {type:'Increases'}]->(m:Entity {type:'FIN_METRIC'}) RETURN m.name,,,,,,
+Which regulatory body was involved in a legal case related to Apple?,MATCH (r:Entity {type:'ORG_REG'})<-[:RELATIONSHIP {type:'Involved_In'}]-(l:Entity {type:'LITIGATION'}) WHERE l.name CONTAINS 'Apple' RETURN r.name,,,,,,
+What legal action was Apple involved in?,MATCH (c:Entity {name:'Apple'})-[:RELATIONSHIP {type:'Involved_In'}]->(l:Entity {type:'LITIGATION'}) RETURN l.name,,,,,,
+Which company benefits from Safari-related revenue increases?,MATCH (c:Entity)-[:RELATIONSHIP {type:'Increases'}]->(m:Entity {type:'FIN_METRIC'}) WHERE m.name CONTAINS 'Safari' RETURN c.name,,,,,,
+Which company is compared competitively with Apple in the smart home market?,MATCH (c:Entity {name:'Alphabet'})-[:RELATIONSHIP {type:'Related_To'}]->(p:Entity {type:'CONCEPT'}) RETURN c.name,,,,,,
+Which companies are subject to European Union regulations?,MATCH (c:Entity)-[:RELATIONSHIP {type:'Subject_To'}]->(g:Entity {type:'ORG_GOV'}) WHERE g.name='European Union' RETURN c.name,,,,,,
+Which government body regulates major technology gatekeepers?,MATCH (g:Entity {type:'ORG_GOV'}) WHERE g.name='European Union' RETURN g.name,,,,,,
+Which companies suspended advertising on X according to the document?,MATCH (c:Entity)-[:RELATIONSHIP {type:'Involved_In'}]->(e:Entity {type:'EVENT'}) WHERE e.name CONTAINS 'ads' RETURN c.name,,,,,,
+Which company is described as a cheaper stock alternative to Apple?,MATCH (c:Entity {name:'Nvidia'}) RETURN c.name,,,Nvidia,,,
+Which market index reached new highs in 2023?,MATCH (i:Entity {type:'FIN_MARKET'}) WHERE i.name='S&P 500' RETURN i.name,,,,S&P 500,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,The market,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,all three major indexes,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,S&P 500 index,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,Blue Chip Stocks,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,Wall Street's main indexes,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,equities,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,S&P 500,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,U.S. stocks,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,Dow,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,S&P,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,Nasdaq,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,All three major U.S. stock indexes,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,S&P 500 and Nasdaq,,
+Which market index includes Apple as a major component?,MATCH (i:Entity {type:'FIN_MARKET'}) RETURN i.name,,,,Dow Jones,,
+What major market event occurred in late 2023?,MATCH (e:Entity {type:'EVENT'}) WHERE e.name CONTAINS 'rally' RETURN e.name,,,,,'Santa rally',
+Which companies are related to content or streaming services?,MATCH (c:Entity)-[:RELATIONSHIP {type:'Related_To'}]->(p:Entity {type:'CONCEPT'}) WHERE p.name CONTAINS 'streaming' RETURN c.name,,,,,,
+Which company is Apple discussing a streaming bundle partnership with?,MATCH (c:Entity {name:'Apple Inc.'})-[:RELATIONSHIP {type:'Partners_With'}]->(m:Entity {type:'COMP'}) RETURN m.name,,,,,,
+What relationship exists between Apple Inc. and Paramount Global?,MATCH (c:Entity {name:'Apple Inc.'})-[r:RELATIONSHIP]->(m:Entity {name:'Paramount Global'}) RETURN r.type,,,,,,
+Which sector do Apple and Alphabet operate in?,"MATCH (c:Entity)-[:RELATIONSHIP {type:'Operates_In'}]->(s:Entity {type:'SECTOR'}) WHERE c.name IN ['Apple Inc.','Alphabet'] RETURN DISTINCT s.name",,,,,,
+Which companies are members of the Magnificent Seven?,MATCH (c:Entity)-[:RELATIONSHIP {type:'Member_Of'}]->(g:Entity {name:'Magnificent Seven'}) RETURN c.name,,,,,,
+Which financial metrics are associated with Alphabet?,MATCH (c:Entity {name:'Alphabet'})-[:RELATIONSHIP]->(m:Entity {type:'FIN_METRIC'}) RETURN m.name,,,,,,
+Which macroeconomic condition influenced markets in late 2023?,MATCH (m:Entity {type:'MACRO_CONDITION'}) RETURN m.name,,,,,,global demand
+Which macroeconomic condition influenced markets in late 2023?,MATCH (m:Entity {type:'MACRO_CONDITION'}) RETURN m.name,,,,,,progress in lowering inflation
+Which macroeconomic condition influenced markets in late 2023?,MATCH (m:Entity {type:'MACRO_CONDITION'}) RETURN m.name,,,,,,interest rate hiking campaign
+Which macroeconomic condition influenced markets in late 2023?,MATCH (m:Entity {type:'MACRO_CONDITION'}) RETURN m.name,,,,,,easing inflation
+Which macroeconomic condition influenced markets in late 2023?,MATCH (m:Entity {type:'MACRO_CONDITION'}) RETURN m.name,,,,,,Fed’s aggressive rate increases
+Which macroeconomic condition influenced markets in late 2023?,MATCH (m:Entity {type:'MACRO_CONDITION'}) RETURN m.name,,,,,,tighter monetary policy
+Which macroeconomic condition influenced markets in late 2023?,MATCH (m:Entity {type:'MACRO_CONDITION'}) RETURN m.name,,,,,,view that key policy rates have peaked
+Which macroeconomic condition influenced markets in late 2023?,MATCH (m:Entity {type:'MACRO_CONDITION'}) RETURN m.name,,,,,,view that interest rates have peaked
+Which financial institution provided market commentary?,MATCH (c:Entity {name:'BofA Global Research'}) RETURN c.name,,,,,,
+What major investment announcement did Apple make?,MATCH (c:Entity {name:'Apple Inc.'})-[:RELATIONSHIP {type:'Announces'}]->(e:Entity {type:'EVENT'}) RETURN e.name,,,,,,
+Which companies are subject to the Digital Markets Act?,MATCH (c:Entity)-[:RELATIONSHIP {type:'Complies_With'}]->(r:Entity {type:'REGULATORY_REQUIREMENT'}) RETURN c.name,,,,,,
+What type of entity is the European Union in the graph?,MATCH (g:Entity {name:'European Union'}) RETURN g.type,,,,,,
+Which entity represents Apple in the knowledge graph?,MATCH (c:Entity {name:'Apple Inc.'}) RETURN c.name,,,Apple Inc.,,,
+What type of event is the equity market rally?,MATCH (e:Entity {name:'Equity market rally'}) RETURN e.type,,,,,,
+"Which sector do Apple, Alphabet, and Nvidia all operate in?","MATCH (c:Entity)-[:RELATIONSHIP {type:'Operates_In'}]->(s:Entity {type:'SECTOR'}) WHERE c.name IN ['Apple Inc.','Alphabet','Nvidia'] RETURN DISTINCT s.name",,,,,,
